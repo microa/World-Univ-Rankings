@@ -27,7 +27,7 @@ jobs:
         echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > service_account.json
 
     - name: Run update script
-      run: python update_readme.py
+      run: python autorun/update_readme.py
 
     - name: Commit & Push changes
       run: |
