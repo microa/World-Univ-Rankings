@@ -24,6 +24,9 @@ U.S. News Best Global Universities Rankings
 
 可视化（Visualization）：
 **☆Star** 超过50就立即更新。没超过就等不那么忙时更新😉😉 
+
+技术细节（Tech Report）：  
+即将更新，并且持续升级和优化中……  
 """
 
 # 设置表格每列的对齐方式。
