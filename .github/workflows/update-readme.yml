@@ -3,7 +3,11 @@ name: Update README from Google Sheets
 on:
   schedule:
     - cron: '0 0 * * *'  # 每天 00:00 UTC 跑一次
-  workflow_dispatch:      # 也允许手动触发
+  workflow_dispatch:     # 也允许手动触发
+
+# ⬇️ 加上这两行代码 ⬇️
+permissions:
+  contents: write
 
 jobs:
   build:
