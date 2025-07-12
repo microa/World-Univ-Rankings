@@ -24,7 +24,7 @@ jobs:
 
     - name: Set up Google credentials
       run: |
-        echo "${{ secrets.GCP_SA_KEY_B64 }}" | base64 -d > service_account.json
+        echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > service_account.json
 
     - name: Run update script
       run: python autorun/update_readme.py
