@@ -24,7 +24,10 @@ jobs:
 
     - name: Set up Google credentials
       run: |
-        echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > service_account.json
+        cat << 'EOF' > service_account.json
+    ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+    EOF
+    
 
     - name: Run update script
       run: python autorun/update_readme.py
