@@ -8,26 +8,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version: '3.x' }
 
-    - name: Install dependencies
-      run: |
-        pip install gspread oauth2client
+      - name: Install dependencies
+        run: pip install gspread oauth2client
 
-    - name: Set up Google credentials
-      run: |
-        printf '%s' "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > service_account.json
+      - name: Set up Google credentials
+        run: |
+          cat << 'EOF' > service_account.json
+${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+EOF
 
-    - name: Run update script
-      run: python autorun/update_readme.py
+      - name: Debug credentials file
+        run: |
+          echo "Lines in file: $(wc -l < service_account.json)"
+          sed -n '1,3p' service_account.json
+
+      - name: Run update script
+        run: python autorun/update_readme.py
+
+      # …后续 Commit & Push 步骤
+
 
     - name: Commit & Push changes
       run: |
