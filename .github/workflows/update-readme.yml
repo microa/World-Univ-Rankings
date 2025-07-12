@@ -23,8 +23,10 @@ jobs:
         pip install gspread oauth2client
 
     - name: Set up Google credentials
-      run: |
-        echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}" > service_account.json
+          env:
+            GCP_SA_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          run: |
+            echo "$GCP_SA_KEY" > service_account.json
 
     - name: Run update script
       run: python autorun/update_readme.py
