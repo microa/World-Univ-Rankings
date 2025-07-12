@@ -1,26 +1,60 @@
 import gspread
 import os
 
-# --- 配置 ---
+# --- 1. 在这里自定义你的内容和格式 ---
+
+# [可选] README 的新标题
+README_TITLE = "# 🌏 世界大学排名自动更新"
+
+# [可选] 在表格前显示的自定义文字。
+# 你可以在 """ 和 """之间使用多行文字，也支持 Markdown 语法（如 **加粗**、*斜体* 等）。
+CUSTOM_TEXT_BEFORE_TABLE = """
+大家好！欢迎来到世界大学排名榜单。
+
+这个榜单的数据来源于一份 Google Sheet，并通过 GitHub Actions 实现了每日自动同步。
+确保您随时可以获取到最新、最准确的排名信息。
+"""
+
+# [可选] 设置表格每列的对齐方式。
+# 可选值: 'left' (左对齐), 'center' (居中), 'right' (右对齐)
+# 列表中的元素数量应与你的表格列数对应。
+# 例如，如果你的表格有 4 列，你可以这样设置：
+# COLUMN_ALIGNMENTS = ['center', 'left', 'right', 'center']
+# 如果留空 []，则全部默认左对齐。
+COLUMN_ALIGNMENTS = ['center', 'left', 'right', 'center'] 
+
+# --- 内部配置 (一般无需修改) ---
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1zEXZ0IkwySOkKju9IctvcH8JuJ1qCa-o2t2wBs3ss0U/edit#gid=0"
 WORKSHEET_NAME = "Rankings"
-# 工作流会从 GitHub Secret 创建这个文件
 SERVICE_ACCOUNT_FILE = "service_account.json" 
 
-# --- 授权 (更现代、更简单的方式) ---
+# --- 2. 核心脚本逻辑 (无需修改) ---
+
+def get_alignment_divider(num_columns, alignments):
+    """根据配置生成 Markdown 表格的对齐分割线"""
+    dividers = []
+    default_alignment = 'left'
+    for i in range(num_columns):
+        # 如果 alignments 列表不够长，就使用默认对齐
+        align = alignments[i] if i < len(alignments) else default_alignment
+        if align == 'center':
+            dividers.append(':---:')
+        elif align == 'right':
+            dividers.append('---:')
+        else: # 'left'
+            dividers.append('---')
+    return "| " + " | ".join(dividers) + " |"
+
+# 授权
 print("🚀 正在授权 Google Sheets...")
 try:
-    # 使用 gspread 内置的服务账户授权方法
     gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
     print("✅ 授权成功！")
-except FileNotFoundError:
-    print(f"❌ 错误: 找不到凭证文件 '{SERVICE_ACCOUNT_FILE}'。请检查 GitHub Actions 工作流是否正确创建了该文件。")
-    exit(1)
 except Exception as e:
-    print(f"❌ 授权时发生未知错误: {e}")
+    print(f"❌ 授权时发生错误: {e}")
     exit(1)
 
-# --- 获取数据 ---
+# 获取数据
 print(f"📊 正在从工作表 '{WORKSHEET_NAME}' 获取数据...")
 try:
     spreadsheet = gc.open_by_url(SHEET_URL)
@@ -28,38 +62,49 @@ try:
     data = sheet.get_all_values()
     print(f"✅ 成功获取 {len(data)} 行数据。")
 except gspread.exceptions.SpreadsheetNotFound:
-    print(f"❌ 错误: 找不到电子表格。")
-    print("   请确认:")
-    print(f"   1. Google Sheet URL 是否正确: {SHEET_URL}")
-    print(f"   2. 是否已将服务账户邮箱共享给该表格并授予“编辑者”权限。")
+    print(f"❌ 错误: 找不到电子表格。请检查 URL 和共享权限。")
     exit(1)
 except gspread.exceptions.WorksheetNotFound:
     print(f"❌ 错误: 在电子表格中找不到名为 '{WORKSHEET_NAME}' 的工作表。")
     exit(1)
 except Exception as e:
-    print(f"❌ 获取数据时发生未知错误: {e}")
+    print(f"❌ 获取数据时发生错误: {e}")
     exit(1)
 
-# --- 转为 Markdown 表格 ---
+# 生成 Markdown 内容
 print("📝 正在生成 Markdown 内容...")
-lines = ["# 📊 Google Sheet 自动同步\n"]
+lines = []
+
+# 添加自定义标题和文字
+if README_TITLE:
+    lines.append(README_TITLE)
+if CUSTOM_TEXT_BEFORE_TABLE:
+    lines.append(CUSTOM_TEXT_BEFORE_TABLE.strip())
+
+# 仅在有数据时才添加表格
 if data:
+    # 添加一个空行以分隔文字和表格
+    lines.append("") 
+    
+    num_columns = len(data[0])
     header = "| " + " | ".join(data[0]) + " |"
-    divider = "| " + " | ".join(["---"] * len(data[0])) + " |"
+    divider = get_alignment_divider(num_columns, COLUMN_ALIGNMENTS)
+    
     lines.append(header)
     lines.append(divider)
+    
     for row in data[1:]:
-        # 确保所有单元格内容都是字符串，避免 join 出错
         str_row = [str(cell) for cell in row]
         lines.append("| " + " | ".join(str_row) + " |")
 else:
-    lines.append("No data found.")
+    lines.append("\n没有在表格中找到数据。")
 
-# --- 写入 README.md ---
+# 写入 README.md
+print("✍️ 正在写入 README.md...")
 try:
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    print("✅ README.md 已成功更新！")
+    print("🎉 README.md 已成功更新！")
 except Exception as e:
     print(f"❌ 写入 README.md 时发生错误: {e}")
     exit(1)
