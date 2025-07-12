@@ -4,20 +4,23 @@ import os
 # --- 1. 在这里自定义你的内容和格式 ---
 
 # README 标题
-README_TITLE = "# 🌏 世界大学排名自动更新"
+README_TITLE = "# 🌏 世界大学排名「均值榜」自动更新"
 
 # 在表格前显示的自定义文字。
 # 你可以在 """ 和 """之间使用多行文字，也支持 Markdown 语法（如 **加粗**、*斜体* 等）。
 CUSTOM_TEXT_BEFORE_TABLE = """
-大家好！欢迎来到世界大学排名榜单。
+大家好！欢迎来到世界大学排名「均值榜」榜单自动更新版。  
+众所周知，大学排行榜是一项争议不断、充满政治色彩以及商业味重的工作。  
+那我们今天就将各方力量揉和在一起，提出一个「均值榜」供大家参考。  
 
 这个榜单的数据来源于四大综合榜榜单，它们分别是：  
 QS World University Rankings  
 The Times Higher Education World University Rankings  
 The Academic Ranking of World Universities (ARWU)  
 U.S. News Best Global Universities Rankings  
-  
-被跟踪的学校会每日自动更新，确保您随时可以获取到最新、最准确的排名信息，如果您有想跟踪的学校，请发邮件至: bh.huang@ieee.org, 我们将为您即时添加。  
+
+如果对您有用，麻烦狂击右上角 **☆Star** 收藏  
+被跟踪的学校会每日自动更新，确保您随时可以获取到最新、最准确的排名信息，如果您有想跟踪的学校，请发邮件至: bh.huang@ieee.org, 我们将为您即时添加。
 """
 
 # 设置表格每列的对齐方式。
