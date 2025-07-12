@@ -3,32 +3,32 @@ import os
 
 # --- 1. 在这里自定义你的内容和格式 ---
 
-# [可选] README 的新标题
+# README 标题
 README_TITLE = "# 🌏 世界大学排名自动更新"
 
-# [可选] 在表格前显示的自定义文字。
+# 在表格前显示的自定义文字。
 # 你可以在 """ 和 """之间使用多行文字，也支持 Markdown 语法（如 **加粗**、*斜体* 等）。
 CUSTOM_TEXT_BEFORE_TABLE = """
 大家好！欢迎来到世界大学排名榜单。
 
-这个榜单的数据来源于一份 Google Sheet，并通过 GitHub Actions 实现了每日自动同步。
-确保您随时可以获取到最新、最准确的排名信息。
+这个榜单的数据来源于四大综合榜榜单，它们分别是：  
+QS World University Rankings  
+The Times Higher Education World University Rankings  
+The Academic Ranking of World Universities (ARWU)  
+U.S. News Best Global Universities Rankings  
+  
+被跟踪的学校会每日自动更新，确保您随时可以获取到最新、最准确的排名信息，如果您有想跟踪的学校，请发邮件至: bh.huang@ieee.org, 我们将为您即时添加。  
 """
 
-# [可选] 设置表格每列的对齐方式。
-# 可选值: 'left' (左对齐), 'center' (居中), 'right' (右对齐)
-# 列表中的元素数量应与你的表格列数对应。
-# 例如，如果你的表格有 4 列，你可以这样设置：
-# COLUMN_ALIGNMENTS = ['center', 'left', 'right', 'center']
-# 如果留空 []，则全部默认左对齐。
-COLUMN_ALIGNMENTS = ['center', 'left', 'right', 'center'] 
+# 设置表格每列的对齐方式。
+COLUMN_ALIGNMENTS = ['center', 'center', 'center', 'center', 'center', 'center', 'center', 'center', 'center'] 
 
-# --- 内部配置 (一般无需修改) ---
+# --- 内部配置---
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1zEXZ0IkwySOkKju9IctvcH8JuJ1qCa-o2t2wBs3ss0U/edit#gid=0"
 WORKSHEET_NAME = "Rankings"
 SERVICE_ACCOUNT_FILE = "service_account.json" 
 
-# --- 2. 核心脚本逻辑 (无需修改) ---
+# --- 2. 核心脚本逻辑 ---
 
 def get_alignment_divider(num_columns, alignments):
     """根据配置生成 Markdown 表格的对齐分割线"""
