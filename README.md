@@ -10,7 +10,13 @@ The Academic Ranking of World Universities (ARWU)
 U.S. News Best Global Universities Rankings  
 
 如果对您有用，麻烦狂击右上角 **☆Star** 收藏  
-被跟踪的学校会每日自动更新，确保您随时可以获取到最新、最准确的排名信息，如果您有想跟踪的学校，请发邮件至: bh.huang@ieee.org, 我们将为您即时添加。
+被跟踪的学校会每日自动更新，确保您随时可以获取到最新、最准确的排名信息，如果您有想跟踪的学校，请发邮件至: bh.huang@ieee.org, 我们将为您即时添加。  
+
+可视化（Visualization）：
+**☆Star** 超过50就立即更新。没超过就等不那么忙时更新😉😉 
+
+技术细节（Tech Report）：  
+即将更新，并且持续升级和优化中……
 
 | Region | League | Name | 中文名 | USNews | QS | ARWU | THE | Mean |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
