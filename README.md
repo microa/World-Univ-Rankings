@@ -16,7 +16,10 @@ U.S. News Best Global Universities Rankings
 即将更新，并且持续升级和优化中……    
   
 技术细节（Tech Report）：  
-即将更新，并且持续升级和优化中……
+1. 读取原数据表，查看关注对象是否有填充值  
+2. 调用LLM API检索最新数据（以解决直接爬数据难以匹配的问题）  
+3. 写回原数据表。
+4. 更新至Github
 
 | Region | League | Name | 中文名 | USNews | QS | ARWU | THE | Mean |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
